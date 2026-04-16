@@ -1,12 +1,18 @@
 import json
+import logging
 import redis
+import traceback
+import os
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Prompt
 
-r = redis.Redis(host="localhost", port=6379, db=0)
+logger = logging.getLogger(__name__)
+
+REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
+r = redis.Redis(host=REDIS_HOST, port=6379, db=0)
 
 
 @csrf_exempt
@@ -53,26 +59,21 @@ def prompt_list_create(request):
 def prompt_detail(request, id):
     try:
         prompt = Prompt.objects.get(id=id)
-
-        # Redis key
+        
         key = f"prompt:{id}:views"
-
-        # Increment view count
         view_count = r.incr(key)
-
-        data = {
+        
+        return JsonResponse({
             "id": prompt.id,
             "title": prompt.title,
             "content": prompt.content,
             "complexity": prompt.complexity,
             "created_at": prompt.created_at,
-            "view_count": int(view_count)
-        }
-
-        return JsonResponse(data)
-
-    except Prompt.DoesNotExist:
-        return JsonResponse({"error": "Prompt not found"}, status=404)
-
+            "view_count": view_count
+        })
+    
     except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+        return JsonResponse({
+            "error": str(e),
+            "trace": traceback.format_exc()
+        }, status=500)
