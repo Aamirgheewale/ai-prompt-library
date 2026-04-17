@@ -9,31 +9,39 @@ import { PromptService } from '../services/prompt.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div style="padding:20px;">
-      <h2>Add New Prompt</h2>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl border shadow-sm">
+      <h2 class="text-xl font-semibold mb-6">Create New Prompt</h2>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
         <div>
-          <label>Title</label><br>
-          <input formControlName="title" />
-          <div *ngIf="form.controls.title.touched && form.controls.title.invalid">
+          <input formControlName="title"
+                 placeholder="Title"
+                 class="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <div *ngIf="form.controls.title.touched && form.controls.title.invalid"
+               class="text-red-600 text-sm mt-1">
             Title must be at least 3 characters
           </div>
         </div>
-        <br>
         <div>
-          <label>Content</label><br>
-          <textarea formControlName="content"></textarea>
-          <div *ngIf="form.controls.content.touched && form.controls.content.invalid">
+          <textarea formControlName="content"
+                    placeholder="Prompt content..."
+                    rows="6"
+                    class="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          <div *ngIf="form.controls.content.touched && form.controls.content.invalid"
+               class="text-red-600 text-sm mt-1">
             Content must be at least 20 characters
           </div>
         </div>
-        <br>
         <div>
-          <label>Complexity (1–10)</label><br>
-          <input type="number" formControlName="complexity" />
+          <input type="number"
+                 formControlName="complexity"
+                 placeholder="Complexity (1-10)"
+                 class="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
         </div>
-        <br>
-        <button type="submit" [disabled]="form.invalid">Create Prompt</button>
+        <button type="submit"
+                [disabled]="form.invalid"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed">
+          Create Prompt
+        </button>
       </form>
     </div>
   `
