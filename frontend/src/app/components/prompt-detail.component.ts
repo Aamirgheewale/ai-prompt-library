@@ -8,17 +8,24 @@ import { PromptService } from '../services/prompt.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div style="padding:20px;">
-      <button (click)="goBack()">← Back</button>
-      <div *ngIf="loading">Loading prompt...</div>
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl border shadow-sm">
+      <button (click)="goBack()"
+              class="mb-6 text-blue-600 hover:underline">
+        ← Back
+      </button>
+      <div *ngIf="loading" class="text-gray-500">Loading prompt...</div>
       <div *ngIf="!loading && prompt">
-        <h2>{{ prompt.title }}</h2>
-        <p><strong>Complexity:</strong> {{ prompt.complexity }}</p>
-        <p><strong>Views:</strong> {{ prompt.view_count }}</p>
-        <hr>
-        <p>{{ prompt.content }}</p>
+        <h2 class="text-2xl font-semibold mb-4">{{ prompt.title }}</h2>
+        <div class="flex gap-3 mb-5">
+          <span class="px-3 py-1 rounded-full bg-gray-100 text-sm">
+            Complexity: {{ prompt.complexity }}
+          </span>
+          <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm">
+            👁 Views: {{ prompt.view_count }}
+          </span>
+        </div>
+        <p class="text-gray-700 leading-relaxed">{{ prompt.content }}</p>
       </div>
-      <div *ngIf="!loading && !prompt">Prompt not found.</div>
     </div>
   `
 })
