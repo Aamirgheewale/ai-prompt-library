@@ -77,18 +77,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DB_HOST = os.environ.get("DB_HOST", "localhost")
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'prompts_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': DB_HOST,
-        'PORT': '5432',
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USER"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        'HOST': os.environ.get("DB_HOST"),
+        'PORT': os.environ.get("DB_PORT", "5432"),
     }
 }
+
+# Debug logs for verification
+print("🔍 DB USER:", os.environ.get("DB_USER"))
+print("🔍 DB HOST:", os.environ.get("DB_HOST"))
 
 
 # Password validation
@@ -147,4 +149,4 @@ LOGGING = {
 import os
 
 DEBUG = False
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
