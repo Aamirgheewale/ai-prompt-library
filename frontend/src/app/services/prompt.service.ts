@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PromptService {
-  private apiUrl = 'http://127.0.0.1:8000/api/prompts';
+  private apiUrl = 'https://ai-prompt-library-1-4h53.onrender.com/api/prompts';
 
   constructor(private http: HttpClient) {}
 
